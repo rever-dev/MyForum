@@ -6,13 +6,13 @@
     app:startDestination="@id/forumFragment">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.rever.myforum.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <fragment
         android:id="@+id/forumFragment"
         android:name="com.rever.myforum.forum.ForumFragment"
         android:label="fragment_forum"
         tools:layout="@layout/fragment_forum" />
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.rever.myforum.member.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
 </navigation>

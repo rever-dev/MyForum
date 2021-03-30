@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginFragment">
+    tools:context=".member.LoginFragment">
 
     <EditText
-        android:id="@+id/login_editTextAccount"
-        android:layout_width="wrap_content"
+        android:id="@+id/signIn_editTextAccount"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="60dp"
+        android:autofillHints="@string/editText_account_hint"
         android:drawableStart="@drawable/ic_baseline_supervisor_account_24"
         android:drawablePadding="10dp"
         android:ems="10"
@@ -18,56 +19,42 @@
         android:includeFontPadding="false"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="@string/editText_account_hint" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/login_editTextPassword"
-        android:layout_width="wrap_content"
+        android:id="@+id/signIn_editTextPassword"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
+        android:autofillHints="@string/editText_password_hint"
         android:drawableStart="@drawable/ic_baseline_vpn_key_24"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="@string/editText_password_hint"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_editTextAccount"
-        android:autofillHints="@string/editText_password_hint" />
+        app:layout_constraintEnd_toEndOf="@+id/signIn_editTextAccount"
+        app:layout_constraintStart_toStartOf="@+id/signIn_editTextAccount"
+        app:layout_constraintTop_toBottomOf="@+id/signIn_editTextAccount" />
 
     <Button
-        android:id="@+id/login_buttonLogin"
-        android:layout_width="wrap_content"
+        android:id="@+id/signIn_buttonLogin"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/button_login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/login_buttonSignUp"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_editTextPassword" />
-
-    <Button
-        android:id="@+id/login_buttonSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/login_buttonLogin"
-        app:layout_constraintTop_toBottomOf="@+id/login_editTextPassword" />
+        android:layout_marginTop="100dp"
+        android:text="@string/button_signIn"
+        app:layout_constraintEnd_toEndOf="@+id/signIn_editTextPassword"
+        app:layout_constraintStart_toStartOf="@+id/signIn_editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/signIn_editTextPassword" />
 
     <TextView
-        android:id="@+id/login_textViewForgetPassword"
+        android:id="@+id/signIn_textViewForgetPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
         android:text="@string/textView_forgetPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_editTextPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/signIn_editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/signIn_editTextPassword" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

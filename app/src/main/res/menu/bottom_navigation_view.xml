@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_baseline_forum_24"
         android:title="@string/bottom_nav_forum" />
     <item
-        android:id="@+id/loginFragment"
+        android:id="@+id/memberFragment"
         android:icon="@drawable/ic_baseline_supervisor_account_24"
-        android:title="@string/bottom_nav_login" />
+        android:title="@string/bottom_nav_member" />
 </menu>

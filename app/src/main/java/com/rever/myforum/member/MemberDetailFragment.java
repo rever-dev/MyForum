@@ -1,4 +1,4 @@
-package com.rever.myforum.login;
+package com.rever.myforum.member;
 
 import android.os.Bundle;
 
