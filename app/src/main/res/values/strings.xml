@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MyForum</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bottom_nav_forum">論壇</string>
+    <string name="bottom_nav_login">登入</string>
+    <string name="editText_password_hint">請輸入密碼</string>
+    <string name="editText_account_hint">請輸入帳號</string>
+    <string name="button_login">登入</string>
+    <string name="button_sign_up">註冊</string>
+    <string name="textView_forgetPassword">忘記密碼？</string>
 </resources>
