@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import java.util.List;
 
 public class MemberFragment extends Fragment {
 
-    private final String TAG = "Member";
+    private final String TAG = "MemberFrag";
     
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -67,8 +66,8 @@ public class MemberFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new LoginFragment(), getResources().getString(R.string.button_signIn));
-        adapter.addFragment(new MemberDetailFragment(), getResources().getString(R.string.button_signUp));
+        adapter.addFragment(new SignInFragment(), getResources().getString(R.string.button_signIn));
+        adapter.addFragment(new SignUpFragment(), getResources().getString(R.string.button_signUp));
 
         viewPager.setAdapter(adapter);
     }

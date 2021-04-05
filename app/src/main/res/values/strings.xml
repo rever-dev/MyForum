@@ -6,15 +6,33 @@
     <string name="bottom_nav_member">會員</string>
 
     <string name="editText_password_hint">請輸入密碼</string>
-    <string name="editText_account_hint">請輸入帳號</string>
+    <string name="editText_passwordAgain_hint">請再次輸入密碼</string>
+    <string name="editText_account_hint">請輸入信箱</string>
+    <string name="editText_nickname_hint">請輸入暱稱</string>
 
     <string name="button_signIn">登入</string>
     <string name="button_signUp">註冊</string>
+    <string name="button_editMemberDetail">修改會員資料</string>
+    <string name="button_myPost">我的文章</string>
+    <string name="button_myFav">我的收藏</string>
+    <string name="button_signOut">登出</string>
 
     <string name="textView_forgetPassword">忘記密碼？</string>
+    <string name="textView_nicknameLimit">暱稱最多允許16個字元</string>
+    <string name="textView_passwordLimit">密碼請介於6~16位數</string>
+    <string name="textView_signProtocol">註冊即表示您同意</string>
+    <string name="textView_signPrivacyPolicy">隱私政策</string>
+    <string name="textView_signTermsOfService">服務條款</string>
+    <string name="textView_signAnd">及</string>
+    <string name="textView_totalPostCount">發文總數</string>
+    <string name="textView_totalReplyCount">回覆總數</string>
+    <string name="textView_totalGetLikeCount">獲讚總數</string>
 
     <string name="toast_notEmpty">帳號或密碼不能為空！</string>
     <string name="toast_noNetWork">無網路連線！</string>
     <string name="toast_signInSuccess">登入成功</string>
     <string name="toast_signInFail">登入失敗</string>
+    <string name="toast_signUpSuccess">註冊成功</string>
+    <string name="toast_signUpFail">註冊失敗</string>
+    <string name="toast_accountIsUsed">帳號已存在</string>
 </resources>

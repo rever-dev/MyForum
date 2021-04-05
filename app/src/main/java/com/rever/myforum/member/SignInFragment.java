@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,9 +23,9 @@ import com.rever.myforum.MainActivity;
 import com.rever.myforum.R;
 import com.rever.myforum.network.RemoteAccess;
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class SignInFragment extends Fragment implements View.OnClickListener {
 
-    private final String TAG = "Login";
+    private final String TAG = "SignInFrag";
 
     private Activity activity;
     private SharedPreferences shp;
@@ -35,6 +36,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         activity = getActivity();
         shp = MainActivity.getShp(activity);
     }
@@ -42,12 +44,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: ");
         buttonLogin = view.findViewById(R.id.signIn_buttonLogin);
         editTextAccount = view.findViewById(R.id.signIn_editTextAccount);
         editTextPassword = view.findViewById(R.id.signIn_editTextPassword);
@@ -66,7 +70,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            if (!isEmailValid(editTextAccount.getText().toString())) {
+            if (!MainActivity.isEmailValid(editTextAccount.getText().toString())) {
                 editTextAccount.setError("無效信箱");
                 return;
             }
@@ -74,9 +78,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             if (RemoteAccess.networkConnected(activity)) {
                 String url = RemoteAccess.URL_SERVER + "MemberServlet";
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("action", "login");
-                jsonObject.addProperty("account", editTextAccount.getText().toString());
-                jsonObject.addProperty("password", editTextPassword.getText().toString());
+                jsonObject.addProperty("action", "signIn");
+                jsonObject.addProperty("account", editTextAccount.getText().toString().trim());
+                jsonObject.addProperty("password", editTextPassword.getText().toString().trim());
                 String jsonIn = RemoteAccess.getRemoteData(url, jsonObject.toString());
                 int result;
                 if (!jsonIn.isEmpty()) {
@@ -85,10 +89,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     result = 1;
                 }
 
-                Log.d(TAG, "loginResultCode: " + result);
+                Log.d(TAG, "signInResultCode: " + result);
 
                 if (result == 0) {
                     Toast.makeText(activity, R.string.toast_signInSuccess, Toast.LENGTH_SHORT).show();
+                    shp.edit().putBoolean("signIn", true)
+                            .putString("account", editTextAccount.getText().toString().trim())
+                            .putString("password", editTextPassword.getText().toString().trim())
+                            .apply();
+                    Navigation.findNavController(v).navigate(R.id.memberDetailFragment);
+                    editTextAccount.setText(null);
+                    editTextPassword.setText(null);
                 } else {
                     Toast.makeText(activity, R.string.toast_signInFail, Toast.LENGTH_SHORT).show();
                 }
@@ -99,10 +110,5 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         } else if (itemId == R.id.signIn_textViewForgetPassword) {
             //
         }
-    }
-
-    private boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
-                .matches();
     }
 }
