@@ -27,6 +27,7 @@
     <string name="textView_totalPostCount">發文總數</string>
     <string name="textView_totalReplyCount">回覆總數</string>
     <string name="textView_totalGetLikeCount">獲讚總數</string>
+    <string name="textView_type">分類</string>
 
     <string name="toast_notEmpty">帳號或密碼不能為空！</string>
     <string name="toast_noNetWork">無網路連線！</string>
@@ -35,4 +36,13 @@
     <string name="toast_signUpSuccess">註冊成功</string>
     <string name="toast_signUpFail">註冊失敗</string>
     <string name="toast_accountIsUsed">帳號已存在</string>
+    <string name="toast_notSignIn">請登入後再嘗試</string>
+
+    <string-array name="postTypeOnForum">
+        <item>全部</item>
+        <item>政治</item>
+        <item>3Ｃ</item>
+        <item>生活</item>
+        <item>閒聊</item>
+    </string-array>
 </resources>

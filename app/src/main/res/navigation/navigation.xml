@@ -30,4 +30,9 @@
         android:name="com.rever.myforum.member.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
+    <fragment
+        android:id="@+id/postViewFragment"
+        android:name="com.rever.myforum.forum.PostViewFragment"
+        android:label="fragment_post_view"
+        tools:layout="@layout/fragment_post_view" />
 </navigation>

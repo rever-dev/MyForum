@@ -16,6 +16,8 @@ import android.widget.Button;
 
 import com.rever.myforum.MainActivity;
 import com.rever.myforum.R;
+import com.rever.myforum.bean.Member;
+import com.rever.myforum.model.MemberBase;
 
 public class MemberDetailFragment extends Fragment {
 
@@ -23,11 +25,14 @@ public class MemberDetailFragment extends Fragment {
     private Button buttonSignOut;
     private SharedPreferences shp;
 
+    private Member member;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         shp = MainActivity.getShp(activity);
+        MemberBase.getMemberDetail(activity, shp.getString("account", ""));
     }
 
     @Override

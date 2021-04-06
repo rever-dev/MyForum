@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <!--元件的漸層-->
+            <gradient
+                android:startColor="#ffffff"
+                android:centerColor="#ffffff"
+                android:endColor="#ffffff"
+                android:angle="270" />
+
+            <!--邊框顏色、粗細-->
+                        <stroke
+                            android:width="2dp"
+                            android:color="@color/blue" />
+
+            <!--圓角-->
+            <corners android:topRightRadius="20dp"
+                android:topLeftRadius="20dp"/>
+
+            <padding
+                android:left="3dp"
+                android:top="3dp"
+                android:right="3dp"
+                android:bottom="3dp" />
+        </shape>
+    </item>
+</selector>

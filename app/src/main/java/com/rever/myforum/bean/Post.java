@@ -1,10 +1,15 @@
 package com.rever.myforum.bean;
 
+import android.annotation.SuppressLint;
+
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class Post {
 
     private int id;
+    private int memberId;
+    private String memberNickname;
     private String title;
     private String content;
     private String type;
@@ -18,6 +23,22 @@ public class Post {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getMemberNickname() {
+        return memberNickname;
+    }
+
+    public void setMemberNickname(String memberNickname) {
+        this.memberNickname = memberNickname;
     }
 
     public String getTitle() {
@@ -44,8 +65,10 @@ public class Post {
         this.type = type;
     }
 
-    public Timestamp getDatetime() {
-        return datetime;
+    public String getDatetime() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+
+        return sdf.format(this.datetime);
     }
 
     public void setDatetime(Timestamp datetime) {

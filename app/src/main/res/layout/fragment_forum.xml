@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".forum.ForumFragment">
+    android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/forum_floatingActionButton"
@@ -17,57 +17,97 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <SearchView
-        android:id="@+id/forum_searchView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:background="@color/blue2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <RadioGroup
-        android:id="@+id/forum_radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/forum_searchView"
-        app:layout_constraintTop_toBottomOf="@+id/forum_searchView">
-
-        <RadioButton
-            android:id="@+id/forum_radioButtonHot"
+        <SearchView
+            android:id="@+id/forum_searchView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/radiobutton_hot_style"
-            android:button="@null"
-            android:checked="true"
-            android:text="hot"
-            android:textColor="#00FFFFFF" />
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/searchview_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RadioButton
-            android:id="@+id/forum_radioButtonNew"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/forum_radioGroup"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/radiobutton_new_style"
-            android:button="@null"
-            android:text="new"
-            android:textColor="#00FFFFFF" />
-    </RadioGroup>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/forum_searchView"
+            app:layout_constraintTop_toBottomOf="@+id/forum_searchView">
+
+            <RadioButton
+                android:id="@+id/forum_radioButtonHot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radiobutton_hot_style"
+                android:button="@null"
+                android:checked="true"
+                android:text="hot"
+                android:textColor="#00FFFFFF" />
+
+            <RadioButton
+                android:id="@+id/forum_radioButtonNew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/radiobutton_new_style"
+                android:button="@null"
+                android:text="new"
+                android:textColor="#00FFFFFF" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/forum_spinnerType"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/searchview_background"
+            android:popupBackground="@drawable/spinner_popup_background"
+            android:entries="@array/postTypeOnForum"
+            app:layout_constraintBottom_toBottomOf="@+id/forum_radioGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/forum_radioGroup" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/textView_type"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/forum_spinnerType"
+            app:layout_constraintEnd_toStartOf="@+id/forum_spinnerType"
+            app:layout_constraintTop_toTopOf="@+id/forum_spinnerType" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="5dp"
-        app:layout_constraintStart_toStartOf="@+id/forum_radioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/forum_radioGroup">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/gray"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -76,14 +116,5 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
-
-    <Spinner
-        android:id="@+id/forum_spinnerType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/forum_radioGroup"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/forum_radioGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

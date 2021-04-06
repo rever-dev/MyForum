@@ -1,16 +1,23 @@
 package com.rever.myforum;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.rever.myforum.bean.Post;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
@@ -37,14 +44,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
 
         holder.title.setText(post.getTitle());
         holder.content.setText(post.getContent());
-        holder.likeCount.setText(post.getLikeCount());
-        holder.replyCount.setText(post.getReplyCount());
-        holder.datetime.setText(post.getDatetime().toString());
+        holder.likeCount.setText(String.valueOf(post.getLikeCount()));
+        holder.replyCount.setText(String.valueOf(post.getReplyCount()));
+        holder.datetime.setText(post.getDatetime());
+        holder.itemView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("postId", post.getId());
+            Navigation.findNavController(v).navigate(R.id.postViewFragment,
+                    bundle);
+        });
     }
 
     @Override
     public int getItemCount() {
         return postList.size();
+    }
+
+    public void update(List<Post> list) {
+        postList.clear();
+        postList.addAll(list);
+        notifyDataSetChanged();
     }
 }
 

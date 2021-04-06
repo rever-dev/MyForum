@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--設定點擊Submit按鈕時顯示的圖示-->
+    <item android:drawable="@drawable/ic_baseline_star_24"
+        android:state_checked="true" />
+    <!--設定未點擊Submit按鈕時顯示的圖示-->
+    <item android:drawable="@drawable/ic_baseline_star_border_24"
+        android:state_checked="false"/>
+</selector>

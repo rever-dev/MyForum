@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.telephony.CellIdentityGsm;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,17 +67,30 @@ public class ForumFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        setPostList();
+        postList = PostList.getPostList();
+        setRecyclerView();
+    }
+
+    private void setPostList() {
         /*
-        * 取得spinner type 分類, radioGroup sort 排序
-        * */
+         * 取得spinner type 分類, radioGroup sort 排序
+         * */
         String type = spinner.getSelectedItem().toString();
         String sort =
                 ((RadioButton) View.inflate(activity, R.layout.fragment_forum, null)
                         .findViewById(radioGroup.getCheckedRadioButtonId()))
                         .getText().toString();
-
         PostList.queryPostListByType(activity, type, sort);
-        postList = PostList.getPostList();
-        recyclerView.setAdapter(new PostAdapter(activity, postList));
+    }
+    /*
+    * 設置recyclerView
+    * */
+    private void setRecyclerView() {
+        if (recyclerView.getAdapter() == null) {
+            recyclerView.setAdapter(new PostAdapter(activity,postList));
+        } else {
+            ((PostAdapter) recyclerView.getAdapter()).update(postList);
+        }
     }
 }
