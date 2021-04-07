@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@color/white"
+    android:paddingStart="8dp"
+    android:paddingTop="5dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="5dp"
+    android:layout_marginTop="5dp">
+
+    <ImageView
+        android:id="@+id/replyItem_imageViewMemberAvatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/account_default_image" />
+
+    <TextView
+        android:id="@+id/replyItem_textViewContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
+        tools:text="Content" />
+
+    <CheckBox
+        android:id="@+id/replyItem_checkBoxLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/like_selector"
+        app:buttonTint="#E91E63"
+        app:layout_constraintBottom_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/replyItem_imageViewMemberAvatar"
+        tools:text="likeCount" />
+
+    <TextView
+        android:id="@+id/replyItem_textViewMemberNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/blue2"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintStart_toEndOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintTop_toTopOf="@+id/replyItem_imageViewMemberAvatar"
+        tools:text="UserNickname" />
+
+    <TextView
+        android:id="@+id/replyItem_textViewDatetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/replyItem_checkBoxLike"
+        app:layout_constraintEnd_toStartOf="@+id/replyItem_checkBoxLike"
+        app:layout_constraintTop_toTopOf="@+id/replyItem_checkBoxLike"
+        tools:text="Datetime" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,8 +25,6 @@ public class MemberDetailFragment extends Fragment {
     private Button buttonSignOut;
     private SharedPreferences shp;
 
-    private Member member;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +42,13 @@ public class MemberDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.memberDetail_buttonEditMemberDetail).setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.editMemberDetailFragment);
+        });
         view.findViewById(R.id.memberDetail_buttonsignOut).setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.memberFragment);
             shp.edit().clear().apply();
+            MemberBase.signOut();
         });
     }
 }

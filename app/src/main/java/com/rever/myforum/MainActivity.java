@@ -9,10 +9,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.rever.myforum.model.MemberBase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,8 +26,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         shp = getShp(this);
+        if (shp.getBoolean("signIn", false)) {
+            MemberBase.getMemberDetail(this, shp.getString("account", "guest"));
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this, R.id.nav_fragment);
@@ -49,4 +53,9 @@ public class MainActivity extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
                 .matches();
     }
+
+    public Context getContext() {
+        return getBaseContext();
+    }
+
 }

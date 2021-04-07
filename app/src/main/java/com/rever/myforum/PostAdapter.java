@@ -22,8 +22,8 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostHolder> {
 
-    Activity activity;
-    List<Post> postList;
+    private Activity activity;
+    private List<Post> postList;
 
     public PostAdapter(Activity activity, List<Post> postList) {
         this.activity = activity;

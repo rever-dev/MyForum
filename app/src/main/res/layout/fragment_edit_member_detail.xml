@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".member.EditMemberDetailFragment">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="0dp"
+        android:layout_height="550dp"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editMemberDetail_buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/button_submit"
+        app:layout_constraintEnd_toStartOf="@+id/editMemberDetail_buttonCancel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/background" />
+
+    <Button
+        android:id="@+id/editMemberDetail_buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/editMemberDetail_buttonSubmit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editMemberDetail_buttonSubmit"
+        app:layout_constraintTop_toTopOf="@+id/editMemberDetail_buttonSubmit" />
+
+    <ImageView
+        android:id="@+id/editMemberDetail_imageViewMemberAvatar"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/account_default_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editMemberDetail_buttonEditAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="@string/button_editAvatar"
+        app:backgroundTint="@color/blue2"
+        app:layout_constraintBottom_toBottomOf="@+id/editMemberDetail_imageViewMemberAvatar"
+        app:layout_constraintStart_toEndOf="@+id/editMemberDetail_imageViewMemberAvatar"
+        app:layout_constraintTop_toTopOf="@+id/editMemberDetail_imageViewMemberAvatar" />
+
+    <EditText
+        android:id="@+id/editMemberDetail_editTextNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/spinner_popup_background"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/editText_nickname_hint"
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/editMemberDetail_imageViewMemberAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/editMemberDetail_imageViewMemberAvatar" />
+
+    <EditText
+        android:id="@+id/editMemberDetail_editTextOldPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/spinner_popup_background"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/editText_oldPassword_hint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/editMemberDetail_editTextNickname"
+        app:layout_constraintTop_toBottomOf="@+id/editMemberDetail_editTextNickname" />
+
+    <EditText
+        android:id="@+id/editMemberDetail_editTextPasswordAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/spinner_popup_background"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/editText_passwordAgain_hint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/editMemberDetail_editTextNewPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editMemberDetail_editTextNewPassword" />
+
+    <EditText
+        android:id="@+id/editMemberDetail_editTextNewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/spinner_popup_background"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="@string/editText_NewPassword_hint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/editMemberDetail_editTextOldPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editMemberDetail_editTextOldPassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
