@@ -40,4 +40,8 @@
         android:name="com.rever.myforum.member.EditMemberDetailFragment"
         android:label="fragment_edit_member_detail"
         tools:layout="@layout/fragment_edit_member_detail" />
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="com.rever.myforum.forum.CreatePostFragment"
+        android:label="CreatePostFragment" />
 </navigation>

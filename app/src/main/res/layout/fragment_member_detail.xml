@@ -27,20 +27,36 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/memberDetail_textViewWelcome"
+        android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:shadowColor="@color/black"
         android:shadowDx="2.0"
         android:shadowDy="2.0"
         android:shadowRadius="5.0"
-        android:text="Hi ! ~ User"
+        android:text="@string/textView_welcome"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/memberDetail_imageViewAvatar"
+        app:layout_constraintTop_toTopOf="@+id/memberDetail_imageViewAvatar" />
+
+    <TextView
+        android:id="@+id/memberDetail_textViewMemberNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="2.0"
+        android:shadowDy="2.0"
+        android:shadowRadius="5.0"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/memberDetail_imageViewAvatar"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/memberDetail_imageViewAvatar"
-        app:layout_constraintTop_toTopOf="@+id/memberDetail_imageViewAvatar" />
+        tools:text="User" />
 
     <TextView
         android:id="@+id/textView10"

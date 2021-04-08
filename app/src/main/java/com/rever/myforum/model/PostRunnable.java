@@ -8,20 +8,73 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.rever.myforum.R;
-import com.rever.myforum.bean.Member;
 import com.rever.myforum.bean.Post;
 import com.rever.myforum.network.RemoteAccess;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class PostBase {
+public class PostRunnable implements Runnable{
+
+    private Activity activity;
+    private int postId;
 
     private static Post post;
     private static List<Integer> likeMemberId;
     private static List<Integer> favMemberId;
     private static List<byte[]> imageList;
+
+    public PostRunnable(Activity activity, int postId) {
+        this.activity = activity;
+        this.postId = postId;
+    }
+
+    @Override
+    public void run() {
+        if (RemoteAccess.networkConnected(activity)) {
+            /*
+             * 取得Post本體
+             * */
+            String url = RemoteAccess.URL_SERVER + "PostServlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "findById");
+            jsonObject.addProperty("postId", postId);
+            String jsonPost = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            Type collectionType = new TypeToken<Post>() {
+            }.getType();
+            post = gson.fromJson(jsonPost, collectionType);
+            /*
+             * 取得Post 按讚Member列表
+             * */
+            jsonObject.addProperty("action", "getPostLike");
+            jsonObject.addProperty("postId", postId);
+            String jsonLike = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            collectionType = new TypeToken<List<Integer>>() {
+            }.getType();
+            likeMemberId = gson.fromJson(jsonLike, collectionType);
+            /*
+             * 取得Post 收藏Member列表
+             * */
+            jsonObject.addProperty("action", "getPostFav");
+            jsonObject.addProperty("postId", postId);
+            String jsonFav = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            collectionType = new TypeToken<List<Integer>>() {
+            }.getType();
+            favMemberId = gson.fromJson(jsonFav, collectionType);
+            /*
+             * 取得Post imageList
+             * */
+            jsonObject.addProperty("action", "getImage");
+            jsonObject.addProperty("postId", postId);
+            String jsonImageList = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            collectionType = new TypeToken<List<byte[]>>() {
+            }.getType();
+            imageList = gson.fromJson(jsonImageList, collectionType);
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public static Post getPost() {
 

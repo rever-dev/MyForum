@@ -1,11 +1,13 @@
 package com.rever.myforum.member;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.rever.myforum.MainActivity;
 import com.rever.myforum.R;
+import com.rever.myforum.model.MemberBase;
 import com.rever.myforum.network.RemoteAccess;
 
 public class SignUpFragment extends Fragment implements View.OnClickListener {
@@ -29,11 +32,13 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
     private Button buttonSignUp;
     private EditText editTextAccount, editTextNickname, editTextPassword, editTextPasswordAgain;
     private TextView textViewTermsOfService, textViewPrivacyPolicy;
+    private SharedPreferences shp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        shp = MainActivity.getShp(activity);
     }
 
     @Override
@@ -105,12 +110,19 @@ public class SignUpFragment extends Fragment implements View.OnClickListener {
 
                     Log.d(TAG, "signUpResultCode: " + result);
 
-                    /*  result == 0 : 成功
+                    /* *
+                    *   result == 0 : 成功
                     *   result == 1 : 失敗
                     *   result == 2 : 帳號重覆
                     * */
                     if (result == 0) {
                         Toast.makeText(activity, R.string.toast_signUpSuccess, Toast.LENGTH_SHORT).show();
+                        shp.edit().putBoolean("signIn", true)
+                                .putString("account", editTextAccount.getText().toString().trim())
+                                .putString("password", editTextPassword.getText().toString().trim())
+                                .apply();
+                        MemberBase.getMemberDetail(activity, editTextAccount.getText().toString());
+                        Navigation.findNavController(v).navigate(R.id.memberDetailFragment);
                     } else if (result == 1) {
                         Toast.makeText(activity, R.string.toast_signUpFail, Toast.LENGTH_SHORT).show();
                     } else if (result == 2) {

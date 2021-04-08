@@ -9,16 +9,20 @@ public class Reply {
 
     private int id;
     private int memberId;
+    private int postId;
     private String memberNickname;
     private String content;
     private Timestamp datetime;
     private int likeCount;
 
-    public Reply(int id, int memberId, String memberNickname, String content) {
+    public Reply(int id, int memberId, int postId, String memberNickname, String content, Timestamp datetime, int likeCount) {
         this.id = id;
         this.memberId = memberId;
+        this.postId = postId;
         this.memberNickname = memberNickname;
         this.content = content;
+        this.datetime = datetime;
+        this.likeCount = likeCount;
     }
 
     public int getId() {
@@ -35,6 +39,14 @@ public class Reply {
 
     public void setMemberId(int memberId) {
         this.memberId = memberId;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public String getMemberNickname() {

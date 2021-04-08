@@ -15,10 +15,16 @@ import com.rever.myforum.network.RemoteAccess;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.List;
 
 public class MemberBase {
     private static Member member;
     private static Bitmap memberAvatar;
+    private static List<Post> myPost;
+    private static List<Post> myFavPost;
+    private static int myPostCount;
+    private static int myReplyCount;
+    private static int myPostLikeTotal;
 
     public static Member getMember() {
         if (member == null) {
@@ -50,10 +56,26 @@ public class MemberBase {
 
             jsonObject.addProperty("action", "getAvatar");
             jsonObject.addProperty("memberId", getMember().getId());
-//            jsonObject.addProperty("imageSize", imageSize);
             memberAvatar = RemoteAccess.getRemoteImage(url, jsonObject.toString());
         } else {
             Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Bitmap getMemberAvatar(Activity activity, int memberId) {
+        Bitmap bitmap;
+        if (RemoteAccess.networkConnected(activity)) {
+            String url = RemoteAccess.URL_SERVER + "MemberServlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "getAvatar");
+            jsonObject.addProperty("memberId", memberId);
+            bitmap = RemoteAccess.getRemoteImage(url, jsonObject.toString());
+
+            return bitmap;
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 

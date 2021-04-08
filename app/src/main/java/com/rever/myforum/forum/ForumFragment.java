@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
@@ -23,6 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rever.myforum.PostAdapter;
 import com.rever.myforum.R;
 import com.rever.myforum.bean.Post;
+import com.rever.myforum.model.PostBase;
 import com.rever.myforum.model.PostList;
 
 import java.util.List;
@@ -36,8 +39,6 @@ public class ForumFragment extends Fragment {
     private Spinner spinner;
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
-
-    private List<Post> postList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,14 +63,33 @@ public class ForumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.forum_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         floatingActionButton = view.findViewById(R.id.forum_floatingActionButton);
+
+        floatingActionButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.createPostFragment));
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            setPostList();
+            setRecyclerView(PostList.getPostList());
+        });
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setPostList();
+                setRecyclerView(PostList.getPostList());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         setPostList();
-        postList = PostList.getPostList();
-        setRecyclerView();
+        setRecyclerView(PostList.getPostList());
     }
 
     private void setPostList() {
@@ -86,7 +106,7 @@ public class ForumFragment extends Fragment {
     /*
     * 設置recyclerView
     * */
-    private void setRecyclerView() {
+    private void setRecyclerView(List<Post> postList) {
         if (recyclerView.getAdapter() == null) {
             recyclerView.setAdapter(new PostAdapter(activity,postList));
         } else {

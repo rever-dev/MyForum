@@ -11,6 +11,8 @@
     <string name="editText_passwordAgain_hint">請再次輸入密碼</string>
     <string name="editText_account_hint">請輸入信箱</string>
     <string name="editText_nickname_hint">請輸入暱稱</string>
+    <string name="editText_title_hint">請輸入標題</string>
+    <string name="editText_content_hint">請輸入內容</string>
 
     <string name="button_signIn">登入</string>
     <string name="button_signUp">註冊</string>
@@ -21,6 +23,7 @@
     <string name="button_editAvatar">上傳頭像</string>
     <string name="button_submit">送出</string>
     <string name="button_cancel">取消</string>
+    <string name="button_addImage">新增圖片</string>
     <string name="button_takePicture">拍一張照片</string>
     <string name="button_pickPicture">選擇一張照片</string>
 
@@ -35,16 +38,20 @@
     <string name="textView_totalReplyCount">回覆總數</string>
     <string name="textView_totalGetLikeCount">獲讚總數</string>
     <string name="textView_type">分類</string>
+    <string name="textView_welcome">～歡迎回來～</string>
+    <string name="textView_addImage">可以新增圖片…</string>
 
     <string name="toast_notEmpty">帳號或密碼不能為空！</string>
     <string name="toast_noNetWork">無網路連線！</string>
     <string name="toast_signInSuccess">登入成功</string>
+    <string name="toast_signOutSuccess">已成功登出</string>
     <string name="toast_signInFail">登入失敗</string>
     <string name="toast_signUpSuccess">註冊成功</string>
     <string name="toast_signUpFail">註冊失敗</string>
     <string name="toast_accountIsUsed">帳號已存在</string>
     <string name="toast_notSignIn">請登入後再嘗試</string>
     <string name="toast_noCameraApp">沒有找到相機</string>
+    <string name="toast_createPostSuccess">貼文發佈成功</string>
 
     <string-array name="postTypeOnForum">
         <item>全部</item>
@@ -52,5 +59,13 @@
         <item>3Ｃ</item>
         <item>生活</item>
         <item>閒聊</item>
+        <item>汽車</item>
+    </string-array>
+    <string-array name="postTypeOnWritePost">
+        <item>政治</item>
+        <item>3Ｃ</item>
+        <item>生活</item>
+        <item>閒聊</item>
+        <item>汽車</item>
     </string-array>
 </resources>

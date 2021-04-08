@@ -1,9 +1,10 @@
-package com.rever.myforum.member;
+package com.rever.myforum.forum;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,7 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,95 +32,80 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.rever.myforum.R;
-import com.rever.myforum.UsePicktureFragmnet;
 import com.rever.myforum.model.MemberBase;
 import com.rever.myforum.model.PostBase;
+import com.rever.myforum.util.mAlertDialog;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class EditMemberDetailFragment extends Fragment implements View.OnClickListener {
+public class CreatePostFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "EditMemberDetail";
+    private static final String TAG = "CreatePostFragment";
     private Activity activity;
-    private Button buttonEditAvatar, buttonSubmit, buttonCancel;
-    private EditText editTextNickname, editTextOldPassword, editTextNewPassword, editTextPasswordAgain;
-    private ProgressBar progressBar;
-    private ImageView imageViewMemberAvatar;
+    private Button buttonSubmit, buttonAddImage, buttonCancel;
+    private EditText editTextTitle, editTextContent;
+    private LinearLayout linearLayout;
+    private ImageView imageView;
+    private TextView textViewAddImage;
+    private Spinner spinner;
 
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog;
     private Uri contentUri;
-    private Handler uiHandler = new Handler();
 
     private static final int REQ_TAKE_PICTURE = 0;
     private static final int REQ_PICK_PICTURE = 1;
     private static final int REQ_CROP_PICTURE = 2;
 
-    private byte[] image;
+    private final List<byte[]> IMAGE_LIST = new ArrayList<>();
+    private int imageCount = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         alertDialogBuilder = new AlertDialog.Builder(activity);
-        MemberBase.getMemberDetail(activity, MemberBase.getMember().getAccount());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_member_detail, container, false);
+        return inflater.inflate(R.layout.fragment_write_post, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        buttonEditAvatar = view.findViewById(R.id.editMemberDetail_buttonEditAvatar);
-        buttonSubmit = view.findViewById(R.id.editMemberDetail_buttonSubmit);
-        buttonCancel = view.findViewById(R.id.editMemberDetail_buttonCancel);
-        imageViewMemberAvatar = view.findViewById(R.id.editMemberDetail_imageViewMemberAvatar);
-        editTextNickname = view.findViewById(R.id.editMemberDetail_editTextNickname);
-        editTextOldPassword = view.findViewById(R.id.editMemberDetail_editTextOldPassword);
-        editTextNewPassword = view.findViewById(R.id.editMemberDetail_editTextNewPassword);
-        editTextPasswordAgain = view.findViewById(R.id.editMemberDetail_editTextPasswordAgain);
-        progressBar = view.findViewById(R.id.editMemberDetail_progressBar);
-        /* *
-         * 判斷頭像是否為null
-         * */
-        progressBar.setVisibility(View.GONE);
-        if (MemberBase.getMemberAvatar() == null) {
-            imageViewMemberAvatar.setImageResource(R.drawable.account_default_image);
-        } else {
-            Glide.with(this)
-                    .applyDefaultRequestOptions(new RequestOptions().override(120, 120))
-                    .load(MemberBase.getMemberAvatar())
-                    .transform(new CircleCrop())
-                    .into(imageViewMemberAvatar);
-        }
+        buttonSubmit = view.findViewById(R.id.writePost_buttonSubmit);
+        buttonAddImage = view.findViewById(R.id.writePost_buttonAddImage);
+        buttonCancel = view.findViewById(R.id.writePost_buttonCancel);
+        editTextTitle = view.findViewById(R.id.writePost_editTextTitle);
+        editTextContent = view.findViewById(R.id.writePost_editTextContent);
+        linearLayout = view.findViewById(R.id.writePost_linearLayout);
+        imageView = view.findViewById(R.id.writePost_imageView);
+        textViewAddImage = view.findViewById(R.id.writePost_textViewAddImage);
+        spinner = view.findViewById(R.id.writePost_spinner);
 
-        editTextNickname.setText(MemberBase.getMember().getNickname());
-        buttonEditAvatar.setOnClickListener(this);
         buttonSubmit.setOnClickListener(this);
+        buttonAddImage.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
+        textViewAddImage.setOnClickListener(this);
+        imageView.setOnClickListener(this);
     }
 
     @Override
@@ -147,7 +132,7 @@ public class EditMemberDetailFragment extends Fragment implements View.OnClickLi
         file = new File(file, "picture_cropped.jpg");
         Uri destinationUri = Uri.fromFile(file);
         UCrop.of(sourceImageUri, destinationUri)
-//                .withAspectRatio(16, 9) // 設定裁減比例
+                .withAspectRatio(1, 1) // 設定裁減比例
 //                .withMaxResultSize(480, 270) // 設定結果尺寸不可超過指定寬高
                 .start(activity, this, REQ_CROP_PICTURE);
     }
@@ -169,24 +154,70 @@ public class EditMemberDetailFragment extends Fragment implements View.OnClickLi
             }
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            image = out.toByteArray();
+            IMAGE_LIST.add(out.toByteArray());
         } catch (IOException e) {
             Log.e(TAG, "openInputStream()/decodeBitmap(): " + e.toString());
         }
-        Glide.with(this)
-                .applyDefaultRequestOptions(new RequestOptions().override(120, 120))
-                .load(image)
-                .transform(new CircleCrop())
-                .into(imageViewMemberAvatar);
+        if (bitmap != null) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    500, 500);
+            layoutParams.gravity = Gravity.CENTER;
+            ImageView imageView = new ImageView(activity);
+            imageView.setMaxWidth(500);
+            imageView.setMaxHeight(500);
+            imageView.setPadding(0, 0, 20, 0);
+            imageView.setLayoutParams(layoutParams);
+            imageView.setImageBitmap(bitmap);
+            imageView.setTag(imageCount);
+            imageView.setOnLongClickListener(v -> {
+                mAlertDialog.createAlertDialog(activity, "是否刪除圖片？", "是", "否",
+                        (dialog, which) -> {
+                            IMAGE_LIST.set(Integer.parseInt(imageView.getTag().toString()), null);
+                            linearLayout.removeView(imageView);
+                            setLinearLayout();
+                        }, (dialog, which) -> dialog.dismiss());
+                return false;
+            });
+            linearLayout.addView(imageView);
+            setLinearLayout();
+            imageCount++;
+        } else {
+            setLinearLayout();
+        }
+    }
+
+    private void setLinearLayout() {
+        if (linearLayout.getChildCount() == 2) {
+            Log.d(TAG, "setLinearLayout: " + linearLayout.getChildCount());
+            imageView.setImageResource(R.drawable.ic_baseline_add_circle_outline_24);
+            imageView.setVisibility(View.VISIBLE);
+            textViewAddImage.setVisibility(View.VISIBLE);
+            textViewAddImage.setText(R.string.textView_addImage);
+        } else {
+            Log.d(TAG, "setLinearLayout: " + linearLayout.getChildCount());
+            imageView.setVisibility(View.GONE);
+            textViewAddImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onClick(View v) {
         int itemId = v.getId();
-        /* *
-         * 修改頭像 button
-         * */
-        if (itemId == R.id.editMemberDetail_buttonEditAvatar) {
+        if (itemId == R.id.writePost_buttonSubmit) {
+            PostBase.insertPost(activity,
+                    editTextTitle.getText().toString(),
+                    editTextContent.getText().toString(),
+                    spinner.getSelectedItem().toString(),
+                    MemberBase.getMember().getId(),
+                    MemberBase.getMember().getNickname(),
+                    IMAGE_LIST);
+            Toast.makeText(activity, R.string.toast_createPostSuccess, Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(v).popBackStack();
+        } else if (itemId == R.id.writePost_buttonCancel) {
+            Navigation.findNavController(v).popBackStack();
+        } else if (itemId == R.id.writePost_imageView ||
+        itemId == R.id.writePost_textViewAddImage ||
+        itemId == R.id.writePost_buttonAddImage) {
             View dialogView = View.inflate(activity, R.layout.dialog_choose_picture, null);
             // 拍照
             dialogView.findViewById(R.id.dialog_buttonTakePicture).setOnClickListener(n -> {
@@ -219,67 +250,6 @@ public class EditMemberDetailFragment extends Fragment implements View.OnClickLi
             alertDialogBuilder.setView(dialogView);
             alertDialogBuilder.setTitle("選擇加入圖片的方式");
             alertDialog = alertDialogBuilder.show();
-            /* *
-             * 提交 button
-             * */
-        } else if (itemId == R.id.editMemberDetail_buttonSubmit) {
-            boolean checkResult = true;
-            /* 檢查暱稱 */
-            if (editTextNickname.getText().toString().trim().isEmpty()) {
-                editTextNickname.setError("無效暱稱");
-                checkResult = false;
-            }
-            /* 檢查是否與舊密碼相符 */
-            if (!editTextOldPassword.getText().toString().trim()
-                    .equals(MemberBase.getMember().getPassword())) {
-                editTextOldPassword.setError("與舊密碼不符");
-                checkResult = false;
-            }
-            /* 檢查新密碼 必須大於6字元 */
-            if (editTextNewPassword.getText().toString().trim().isEmpty() ||
-                    editTextNewPassword.getText().length() < 6) {
-                editTextNewPassword.setError("無效密碼");
-                checkResult = false;
-            }
-            /* 檢查再次輸入密碼 必須與新密碼一致 */
-            if (editTextPasswordAgain.getText().toString().trim().isEmpty() ||
-                    !editTextPasswordAgain.getText().toString().trim().equals(editTextNewPassword.getText().toString().trim())) {
-                editTextPasswordAgain.setError("與新密碼不符");
-                checkResult = false;
-            }
-            if (checkResult) {
-                progressBar.setVisibility(View.VISIBLE);
-                SubmitMemberDetailThread thread = new SubmitMemberDetailThread();
-                thread.start();
-            }
-            /* *
-             * 取消 button
-             * */
-        } else if (itemId == R.id.editMemberDetail_buttonCancel) {
-            Navigation.findNavController(v).popBackStack();
         }
     }
-
-    class SubmitMemberDetailThread extends Thread {
-        @Override
-        public void run() {
-            if (image != null) {
-                MemberBase.updateMemberDetail(activity,
-                        editTextNickname.getText().toString(),
-                        editTextNewPassword.getText().toString(),
-                        image);
-            } else {
-                MemberBase.updateMemberDetail(activity,
-                        editTextNickname.getText().toString(),
-                        editTextNewPassword.getText().toString());
-            }
-            Navigation.findNavController(getView()).popBackStack();
-            /*
-             *檔案下載完成後更新UI
-             * */
-            Runnable runnable = () -> progressBar.setVisibility(View.GONE);
-            uiHandler.post(runnable);
-        }
-    }
-
 }

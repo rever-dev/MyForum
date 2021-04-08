@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.rever.myforum.MainActivity;
 import com.rever.myforum.R;
+import com.rever.myforum.model.MemberBase;
 import com.rever.myforum.network.RemoteAccess;
 
 public class SignInFragment extends Fragment implements View.OnClickListener {
@@ -97,6 +98,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                             .putString("account", editTextAccount.getText().toString().trim())
                             .putString("password", editTextPassword.getText().toString().trim())
                             .apply();
+                    MemberBase.getMemberDetail(activity, editTextAccount.getText().toString());
                     Navigation.findNavController(v).navigate(R.id.memberDetailFragment);
                     editTextAccount.setText(null);
                     editTextPassword.setText(null);
