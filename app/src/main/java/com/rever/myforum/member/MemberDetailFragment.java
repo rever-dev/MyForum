@@ -29,7 +29,7 @@ public class MemberDetailFragment extends Fragment {
 
     private Activity activity;
     private Button buttonEditMemberDetail, buttonMyPost, buttonMyFav, buttonSignOut;
-    private TextView textViewNickname;
+    private TextView textViewNickname, textViewPostCount, textViewReplyCount, textViewLikeTotal;
     private ImageView imageViewAvatar;
     private SharedPreferences shp;
 
@@ -54,11 +54,16 @@ public class MemberDetailFragment extends Fragment {
         buttonMyFav = view.findViewById(R.id.memberDetail_buttonMyFav);
         buttonSignOut = view.findViewById(R.id.memberDetail_buttonsignOut);
         textViewNickname = view.findViewById(R.id.memberDetail_textViewMemberNickname);
+        textViewPostCount = view.findViewById(R.id.memberDetail_textViewTotalPostCount);
+        textViewReplyCount = view.findViewById(R.id.memberDetail_textViewTotalReplyCount);
+        textViewLikeTotal = view.findViewById(R.id.memberDetail_textViewTotalGetLiketCount);
         imageViewAvatar = view.findViewById(R.id.memberDetail_imageViewAvatar);
 
         buttonEditMemberDetail.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.editMemberDetailFragment);
         });
+        buttonMyPost.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.myPostFragment));
+        buttonMyFav.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.myFavPostFragment));
         buttonSignOut.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.forumFragment);
             shp.edit().clear().apply();
@@ -72,6 +77,9 @@ public class MemberDetailFragment extends Fragment {
         super.onResume();
         MemberBase.getMemberDetail(activity, MemberBase.getMember().getAccount());
         textViewNickname.setText(MemberBase.getMember().getNickname());
+        textViewPostCount.setText(String.valueOf(MemberBase.getMyPostCount()));
+        textViewReplyCount.setText(String.valueOf(MemberBase.getMyReplyCount()));
+        textViewLikeTotal.setText(String.valueOf(MemberBase.getMyLikeTotal()));
         if (MemberBase.getMemberAvatar() == null) {
             imageViewAvatar.setImageResource(R.drawable.account_default_image);
         } else {

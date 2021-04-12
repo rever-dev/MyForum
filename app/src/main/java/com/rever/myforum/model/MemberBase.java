@@ -22,9 +22,9 @@ public class MemberBase {
     private static Bitmap memberAvatar;
     private static List<Post> myPost;
     private static List<Post> myFavPost;
-    private static int myPostCount;
-    private static int myReplyCount;
-    private static int myPostLikeTotal;
+    private static int myPostCount = 0;
+    private static int myReplyCount = 0;
+    private static int myLikeTotal = 0;
 
     public static Member getMember() {
         if (member == null) {
@@ -37,26 +37,69 @@ public class MemberBase {
         return memberAvatar;
     }
 
+    public static List<Post> getMyPost() {
+        return myPost;
+    }
+
+    public static List<Post> getMyFavPost() {
+        return myFavPost;
+    }
+
+    public static int getMyPostCount() {
+        return myPostCount;
+    }
+
+    public static int getMyReplyCount() {
+        return myReplyCount;
+    }
+
+    public static int getMyLikeTotal() {
+        return myLikeTotal;
+    }
+
     public static void signOut() {
         member = new Member(0,"guest", "guest", "guest");
+        myPostCount = 0;
+        myReplyCount = 0;
+        myLikeTotal = 0;
         memberAvatar = null;
     }
 
     public static void getMemberDetail(Activity activity, String account) {
         if (RemoteAccess.networkConnected(activity)) {
-            String url = RemoteAccess.URL_SERVER + "MemberServlet";
+            String urlM = RemoteAccess.URL_SERVER + "MemberServlet";
+            String urlP = RemoteAccess.URL_SERVER + "PostServlet";
+            String urlR = RemoteAccess.URL_SERVER + "ReplyServlet";
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("action", "getMemberDetail");
             jsonObject.addProperty("account", account);
-            String jsonIn = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            String jsonIn = RemoteAccess.getRemoteData(urlM, jsonObject.toString());
             Type collectionType = new TypeToken<Member>() {
             }.getType();
             member = gson.fromJson(jsonIn, collectionType);
 
             jsonObject.addProperty("action", "getAvatar");
             jsonObject.addProperty("memberId", getMember().getId());
-            memberAvatar = RemoteAccess.getRemoteImage(url, jsonObject.toString());
+            memberAvatar = RemoteAccess.getRemoteImage(urlM, jsonObject.toString());
+
+            jsonObject.addProperty("action", "getMemberPostCount");
+            jsonObject.addProperty("memberId", getMember().getId());
+            myPostCount = Integer.parseInt(RemoteAccess.getRemoteData(urlP, jsonObject.toString()));
+
+            jsonObject.addProperty("action", "getMemberPostLikeTotal");
+            jsonObject.addProperty("memberId", getMember().getId());
+            int postLikeTotal =  Integer.parseInt(RemoteAccess.getRemoteData(urlP, jsonObject.toString()));
+
+            jsonObject.addProperty("action", "getMemberReplyCount");
+            jsonObject.addProperty("memberId", getMember().getId());
+            myReplyCount = Integer.parseInt(RemoteAccess.getRemoteData(urlR, jsonObject.toString()));
+
+            jsonObject.addProperty("action", "getMemberReplyLikeTotal");
+            jsonObject.addProperty("memberId", getMember().getId());
+            int replyLikeTotal =  Integer.parseInt(RemoteAccess.getRemoteData(urlR, jsonObject.toString()));
+
+            myLikeTotal = postLikeTotal + replyLikeTotal;
         } else {
             Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
         }

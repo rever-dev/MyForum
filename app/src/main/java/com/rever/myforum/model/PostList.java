@@ -46,4 +46,36 @@ public class PostList {
             }
     }
 
+    public static void queryMyPost(Activity activity, int memberId) {
+        if (RemoteAccess.networkConnected(activity)) {
+            String url = RemoteAccess.URL_SERVER + "PostServlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "queryByMemberId");
+            jsonObject.addProperty("memberId", memberId);
+            String jsonIn = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            Type collectionType = new TypeToken<List<Post>>() {
+            }.getType();
+            postList = gson.fromJson(jsonIn, collectionType);
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void queryMyFavPost(Activity activity, int memberId) {
+        if (RemoteAccess.networkConnected(activity)) {
+            String url = RemoteAccess.URL_SERVER + "PostServlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "queryByFavorites");
+            jsonObject.addProperty("memberId", memberId);
+            String jsonIn = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            Type collectionType = new TypeToken<List<Post>>() {
+            }.getType();
+            postList = gson.fromJson(jsonIn, collectionType);
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

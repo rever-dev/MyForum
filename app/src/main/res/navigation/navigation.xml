@@ -44,4 +44,18 @@
         android:id="@+id/createPostFragment"
         android:name="com.rever.myforum.forum.CreatePostFragment"
         android:label="CreatePostFragment" />
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="com.rever.myforum.forum.EditPostFragment"
+        android:label="EditPostFragment" />
+    <fragment
+        android:id="@+id/myFavPostFragment"
+        android:name="com.rever.myforum.member.MyFavPostFragment"
+        android:label="fragment_my_fav_post"
+        tools:layout="@layout/fragment_my_fav_post" />
+    <fragment
+        android:id="@+id/myPostFragment"
+        android:name="com.rever.myforum.member.MyPostFragment"
+        android:label="fragment_my_post"
+        tools:layout="@layout/fragment_my_post" />
 </navigation>

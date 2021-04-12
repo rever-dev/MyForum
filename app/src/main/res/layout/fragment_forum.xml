@@ -22,7 +22,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue2"
+        android:background="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -52,8 +52,8 @@
 
             <RadioButton
                 android:id="@+id/forum_radioButtonHot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
                 android:background="@drawable/radiobutton_hot_style"
                 android:button="@null"
                 android:checked="true"
@@ -62,8 +62,8 @@
 
             <RadioButton
                 android:id="@+id/forum_radioButtonNew"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/radiobutton_new_style"
                 android:button="@null"

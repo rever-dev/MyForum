@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
     private EditText editTextTitle, editTextContent;
     private LinearLayout linearLayout;
     private ImageView imageView;
+    private ProgressBar progressBar;
     private TextView textViewAddImage;
     private Spinner spinner;
 
@@ -98,9 +100,11 @@ public class CreatePostFragment extends Fragment implements View.OnClickListener
         editTextContent = view.findViewById(R.id.writePost_editTextContent);
         linearLayout = view.findViewById(R.id.writePost_linearLayout);
         imageView = view.findViewById(R.id.writePost_imageView);
+        progressBar = view.findViewById(R.id.writePost_progressBar);
         textViewAddImage = view.findViewById(R.id.writePost_textViewAddImage);
         spinner = view.findViewById(R.id.writePost_spinner);
 
+        progressBar.setVisibility(View.GONE);
         buttonSubmit.setOnClickListener(this);
         buttonAddImage.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);

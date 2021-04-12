@@ -35,6 +35,7 @@
                     android:id="@+id/postView_imageViewUserAvatar"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/postView_textViewTitle" />
 
@@ -43,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="36sp"
+                    android:textSize="30sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Title" />
@@ -137,6 +138,63 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/replyBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:paddingStart="8dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="5dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/replyBox_imageViewMemberAvatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/account_default_image" />
+
+                <TextView
+                    android:id="@+id/replyBox_textViewMemberNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/blue2"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/replyBox_imageViewMemberAvatar"
+                    app:layout_constraintStart_toEndOf="@+id/replyBox_imageViewMemberAvatar"
+                    app:layout_constraintTop_toTopOf="@+id/replyBox_imageViewMemberAvatar"
+                    tools:text="UserNickname" />
+
+                <EditText
+                    android:id="@+id/replyBox_editTextContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:ems="10"
+                    android:hint="@string/editText_replyBox_hint"
+                    android:inputType="textMultiLine"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/replyBox_buttonSubmit"
+                    app:layout_constraintStart_toStartOf="@+id/replyBox_imageViewMemberAvatar"
+                    app:layout_constraintTop_toBottomOf="@+id/replyBox_imageViewMemberAvatar" />
+
+                <Button
+                    android:id="@+id/replyBox_buttonSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_submit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <FrameLayout
                 android:id="@+id/reply"
                 android:layout_width="match_parent"
@@ -151,16 +209,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/postView_floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_create_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.rever.myforum.model;
 
 import android.app.Activity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -15,6 +16,44 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class ReplyBase {
+
+
+    /*
+     * 新增Reply data
+     * */
+    public static int insertReply(Activity activity, int postId, String content) {
+        int replyId = 0;
+        if (RemoteAccess.networkConnected(activity)) {
+            String url = RemoteAccess.URL_SERVER + "ReplyServlet";
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "insert");
+            jsonObject.addProperty("memberId", MemberBase.getMember().getId());
+            jsonObject.addProperty("postId", postId);
+            jsonObject.addProperty("memberNickname", MemberBase.getMember().getNickname());
+            jsonObject.addProperty("content", content);
+            String jsonIn = RemoteAccess.getRemoteData(url, jsonObject.toString());
+            replyId = Integer.parseInt(jsonIn);
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+        return replyId;
+    }
+    /*
+    * 刪除Reply
+    * */
+    public static void deleteReply(Activity activity, int replyId) {
+        if (RemoteAccess.networkConnected(activity)) {
+            String url = RemoteAccess.URL_SERVER + "ReplyServlet";
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("action", "delete");
+            jsonObject.addProperty("replyId", replyId);
+            RemoteAccess.getRemoteData(url, jsonObject.toString());
+            Toast.makeText(activity, R.string.toast_deleteReplySuccess, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(activity, R.string.toast_noNetWork, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     /*
      * 檢查是否有在按讚名單內

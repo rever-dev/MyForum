@@ -13,7 +13,7 @@
     android:layout_marginTop="5dp">
 
     <ImageView
-        android:id="@+id/replyItem_imageViewMemberAvatar"
+        android:id="@+id/replyBox_imageViewMemberAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="@+id/replyItem_imageViewMemberAvatar"
-        app:layout_constraintTop_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintStart_toStartOf="@+id/replyBox_imageViewMemberAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/replyBox_imageViewMemberAvatar"
         tools:text="Content" />
 
     <CheckBox
@@ -37,21 +37,21 @@
         android:layout_height="wrap_content"
         android:button="@drawable/like_selector"
         app:buttonTint="#E91E63"
-        app:layout_constraintBottom_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintBottom_toBottomOf="@+id/replyBox_imageViewMemberAvatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintTop_toTopOf="@+id/replyBox_imageViewMemberAvatar"
         tools:text="likeCount" />
 
     <TextView
-        android:id="@+id/replyItem_textViewMemberNickname"
+        android:id="@+id/replyBox_textViewMemberNickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:textColor="@color/blue2"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/replyItem_imageViewMemberAvatar"
-        app:layout_constraintStart_toEndOf="@+id/replyItem_imageViewMemberAvatar"
-        app:layout_constraintTop_toTopOf="@+id/replyItem_imageViewMemberAvatar"
+        app:layout_constraintBottom_toBottomOf="@+id/replyBox_imageViewMemberAvatar"
+        app:layout_constraintStart_toEndOf="@+id/replyBox_imageViewMemberAvatar"
+        app:layout_constraintTop_toTopOf="@+id/replyBox_imageViewMemberAvatar"
         tools:text="UserNickname" />
 
     <TextView

@@ -3,13 +3,14 @@ package com.rever.myforum;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.rever.myforum.bean.Reply;
 import com.rever.myforum.model.MemberBase;
-import com.rever.myforum.model.PostBase;
 import com.rever.myforum.model.ReplyBase;
 
 import java.util.List;
@@ -29,6 +29,8 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyHolder> {
     private Activity activity;
     private List<Reply> replyList;
     private SharedPreferences shp;
+    private int replyId;
+    private int position;
 
     public ReplyAdapter(Activity activity, List<Reply> replyList, SharedPreferences shp) {
         this.activity = activity;
@@ -46,7 +48,8 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ReplyHolder holder, int position) {
-        Reply reply = replyList.get(position);
+        Reply reply = replyList.get(replyList.size() - 1 - position);
+        Log.d("position", String.valueOf(position));
         Bitmap avatar = MemberBase.getMemberAvatar(activity, reply.getMemberId());
         if (avatar != null) {
             Glide.with(activity)
@@ -62,6 +65,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyHolder> {
         holder.memberNickname.setText(reply.getMemberNickname());
         holder.datetime.setText(reply.getDatetime());
         holder.content.setText(reply.getContent());
+        holder.itemView.setOnCreateContextMenuListener((menu, v, menuInfo) -> {
+            if (MemberBase.getMember().getId() == reply.getMemberId()) {
+                setReplyId(reply.getId());
+                setPosition(replyList.size() - 1 - position);
+                new MenuInflater(activity).inflate(R.menu.reply_delete_menu, menu);
+            }
+        });
 
         if (!shp.getBoolean("signIn", false)) {
             holder.checkBoxLike.setClickable(false);
@@ -86,11 +96,27 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyHolder> {
     }
 
     public void update(List<Reply> list) {
-        replyList.clear();
-        replyList.addAll(list);
+        replyList = list;
         notifyDataSetChanged();
     }
+
+    public int getReplyId() {
+        return replyId;
+    }
+
+    private void setReplyId(int replyId) {
+        this.replyId = replyId;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    private void setPosition(int position) {
+        this.position = position;
+    }
 }
+
 class ReplyHolder extends RecyclerView.ViewHolder {
 
     ImageView imageViewMemberAvatar;
@@ -99,9 +125,9 @@ class ReplyHolder extends RecyclerView.ViewHolder {
 
     public ReplyHolder(@NonNull View itemView) {
         super(itemView);
-        imageViewMemberAvatar = itemView.findViewById(R.id.replyItem_imageViewMemberAvatar);
+        imageViewMemberAvatar = itemView.findViewById(R.id.replyBox_imageViewMemberAvatar);
         checkBoxLike = itemView.findViewById(R.id.replyItem_checkBoxLike);
-        memberNickname = itemView.findViewById(R.id.replyItem_textViewMemberNickname);
+        memberNickname = itemView.findViewById(R.id.replyBox_textViewMemberNickname);
         content = itemView.findViewById(R.id.replyItem_textViewContent);
         datetime = itemView.findViewById(R.id.replyItem_textViewDatetime);
     }

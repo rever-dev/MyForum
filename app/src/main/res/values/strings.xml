@@ -13,6 +13,7 @@
     <string name="editText_nickname_hint">請輸入暱稱</string>
     <string name="editText_title_hint">請輸入標題</string>
     <string name="editText_content_hint">請輸入內容</string>
+    <string name="editText_replyBox_hint">說點什麼吧…</string>
 
     <string name="button_signIn">登入</string>
     <string name="button_signUp">註冊</string>
@@ -38,7 +39,7 @@
     <string name="textView_totalReplyCount">回覆總數</string>
     <string name="textView_totalGetLikeCount">獲讚總數</string>
     <string name="textView_type">分類</string>
-    <string name="textView_welcome">～歡迎回來～</string>
+    <string name="textView_welcome">歡迎回來</string>
     <string name="textView_addImage">可以新增圖片…</string>
 
     <string name="toast_notEmpty">帳號或密碼不能為空！</string>
@@ -52,6 +53,15 @@
     <string name="toast_notSignIn">請登入後再嘗試</string>
     <string name="toast_noCameraApp">沒有找到相機</string>
     <string name="toast_createPostSuccess">貼文發佈成功</string>
+    <string name="toast_updatePostSuccess">貼文修改成功</string>
+    <string name="toast_deletePostSuccess">貼文已刪除</string>
+    <string name="toast_deleteReplySuccess">留言已刪除</string>
+
+    <string name="menuTitle_edit">編輯文章</string>
+    <string name="menuTitle_delete">刪除文章</string>
+    <string name="menuTitle_deleteReply">刪除留言</string>
+    <string name="menuTitle_fav">收藏文章</string>
+    <string name="menuTitle_unFav">取消收藏</string>
 
     <string-array name="postTypeOnForum">
         <item>全部</item>

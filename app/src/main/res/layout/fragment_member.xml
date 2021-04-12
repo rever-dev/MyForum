@@ -10,7 +10,8 @@
         android:id="@+id/member_banner"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:src="@color/blue"
+        android:src="@drawable/banner"
+        android:background="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

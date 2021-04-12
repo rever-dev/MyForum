@@ -1,6 +1,7 @@
 package com.rever.myforum.forum;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.telephony.CellIdentityGsm;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,12 +22,15 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.rever.myforum.MainActivity;
 import com.rever.myforum.PostAdapter;
 import com.rever.myforum.R;
 import com.rever.myforum.bean.Post;
 import com.rever.myforum.model.PostBase;
 import com.rever.myforum.model.PostList;
+import com.rever.myforum.util.mAlertDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForumFragment extends Fragment {
@@ -40,10 +43,14 @@ public class ForumFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton;
 
+    private SharedPreferences shp;
+    private List<Post> postList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+        shp = MainActivity.getShp(activity);
     }
 
     @Override
@@ -64,11 +71,37 @@ public class ForumFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         floatingActionButton = view.findViewById(R.id.forum_floatingActionButton);
 
+        if (!shp.getBoolean("signIn", false)) {
+            floatingActionButton.setVisibility(View.GONE);
+        }
         floatingActionButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.createPostFragment));
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             setPostList();
             setRecyclerView(PostList.getPostList());
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    setRecyclerView(postList);
+                } else {
+                    List<Post> searchPost = new ArrayList<>();
+                    for (Post post : postList) {
+                        if (post.getTitle().toUpperCase().contains(newText.toUpperCase())) {
+                            searchPost.add(post);
+                        }
+                    }
+                    ((PostAdapter) recyclerView.getAdapter()).update(searchPost);
+                }
+                return true;
+            }
         });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -89,7 +122,34 @@ public class ForumFragment extends Fragment {
     public void onResume() {
         super.onResume();
         setPostList();
+        postList = PostList.getPostList();
         setRecyclerView(PostList.getPostList());
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int postId = ((PostAdapter) recyclerView.getAdapter()).getPostId();
+        int position = ((PostAdapter) recyclerView.getAdapter()).getPosition();
+        if (item.getItemId() == R.id.postMenu_edit) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("postId", postId);
+            Navigation.findNavController(getView()).navigate(R.id.editPostFragment, bundle);
+        } else if (item.getItemId() == R.id.postMenu_delete) {
+            mAlertDialog.createAlertDialog(activity, "確定刪除文章？", "確定", "再想想", (dialog, which) -> {
+                PostBase.deletePost(activity, postId);
+                PostList.getPostList().remove(position);
+                setRecyclerView(PostList.getPostList());
+            }, (dialog, which) -> dialog.dismiss());
+        } else if (item.getItemId() == R.id.postMenu_fav) {
+            PostBase.addPostFav(activity, postId);
+            setPostList();
+            setRecyclerView(PostList.getPostList());
+        } else if (item.getItemId() == R.id.postMenu_unFav) {
+            PostBase.deletePostFav(activity, postId);
+            setPostList();
+            setRecyclerView(PostList.getPostList());
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void setPostList() {
@@ -103,12 +163,13 @@ public class ForumFragment extends Fragment {
                         .getText().toString();
         PostList.queryPostListByType(activity, type, sort);
     }
+
     /*
-    * 設置recyclerView
-    * */
+     * 設置recyclerView
+     * */
     private void setRecyclerView(List<Post> postList) {
         if (recyclerView.getAdapter() == null) {
-            recyclerView.setAdapter(new PostAdapter(activity,postList));
+            recyclerView.setAdapter(new PostAdapter(activity, postList));
         } else {
             ((PostAdapter) recyclerView.getAdapter()).update(postList);
         }
